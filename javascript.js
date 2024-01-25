@@ -4,7 +4,14 @@ const myBooks = document.querySelector('.myBooks');
 
 const myLibrary = [];
 
-//myLibrary.forEach(input => myBooks.textContent = Object.values(input));
+
+//myLibrary.forEach(input => {
+     //trying to create a new card everytime a book is submitted.
+  //  card.textContent = Object.values(input);
+    
+//});
+
+
 
 function Book (title,author,pages,read) {
   this.title = title;
@@ -27,18 +34,24 @@ function addBookToLibrary(e) {
   const input = new Book (title,author,pages,read); //need to make it where each submit creates a prototype of the book
 
   myLibrary.push(input);
-  displayBooks();
+  console.log(myLibrary);
+   //const card = document.createElement("div");
+   //card.textContent = " Title: " + input.title + " Author: " + input.author + " Pages: " + input.pages + " Read? " + input.read; 
+   //myBooks.appendChild(card);
+displayBooks();
 }
 
 function displayBooks (){
-    for (let i = 0; i < myLibrary.length ; i++) {
+  for (let i = 0; i < myLibrary.length; i++) {
 
-      const card = document.createElement("div"); //trying to create a new card everytime a book is submitted
-      card.textContent = " Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
-      myBooks.appendChild(card);
-    } //got the display to work. Doesn't show one book at a time, will show all of them now.
-      // the "myLirary[i].title, etc is how u can pinpoint each object value"
+    const card = document.createElement("div");
+    card.classList.add(".book-card");
+    card.textContent = " Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
+    myBooks.appendChild(card);
+  } //got the display to work. Doesn't show one book at a time, will show all of them now.
+      // the "myLibrary[i].title, etc is how u can pinpoint each object value"
 }
+
 
 
 
