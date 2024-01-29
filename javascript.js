@@ -42,12 +42,11 @@ function addBookToLibrary(e) {
 
   myLibrary.push(input);
   console.log(myLibrary);
-  form.reset(); 
-  
+  displayBooks(); 
 
 
  
-      //card.textContent = myLibrary.slice(-1); //" Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
+//card.textContent = myLibrary.slice(-1); //" Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
     
 } //got the display to work. Doesn't show one book at a time, will show all of them now.
   
@@ -55,6 +54,7 @@ function addBookToLibrary(e) {
 
 
 function displayBooks (){
+   myBooks.textContent = " "; // this right here is IMPORTANT! It clears the content of the display, so when loop starts, it only adds the new added book
   for (let i = 0  ; i < myLibrary.length  ; i++) {
     const card = document.createElement("div");
     card.classList.add("book-card");
@@ -63,7 +63,7 @@ function displayBooks (){
     console.log(card);
 
 }} //try making looop work with fake books in array then move to adding books thru user input.
-
+displayBooks();
 
 
 
@@ -88,12 +88,22 @@ function displayBooks (){
 // Solution 4: looped worked to show what is in the myLibrary array
 
 //Problem 4: Everytime a book is added, it displays the whole array again instead of just adding the new one to th display. 
-// If i have two books on display and add one and submit, it will show 5 books. two original , plus the 2 original and the new one.
+    // If i have two books on display and add one and submit, it will show 5 books. two original , plus the 2 original and the new one.
+    //the loop iterates over the previously added books
+//Solution #4 : Added "myBooks.textContent = "" to reset the display so it will only add the the newest book on display
+  //Say it has book1 in the array, the displayBooks() resets the textContent to blank ""
+  //Then it creates the card and appends it to myBooks
+  //So now the book is on display, now when a another book is added, displayBooks() is initiated again
+  //So myBooks.textContent = "" makes the display blank again and loops over the array and displays all the books in the array
+  //But this happens instantly so book1 disappears but then book1 and book2 are added 
+  //So now book1 will be in the same place as it was on the display and book2 next to it.
+  //Instead of showing book1 book1 book2 like it would before bc the loop iterates over the previously added books
+
 
 //If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
 //So to stop the form from submitting to somewhere you use ".preventDefault();"
 
-//Problem 4: It is not properly reading correctly if the book has been read or not when box is checked
+//Problem 5: It is not properly reading correctly if the book has been read or not when box is checked
 
 //let book = {
   //title ,
@@ -103,6 +113,3 @@ function displayBooks (){
   //not recognizing the book title, authors etc.  Recognized after I put the querySelected elements inside the object
 //}
 
-//myLibrary.push(" Title: " + book.title + " Author: " + book.author + " Pages: " + book.pages + " Read? " + book.read);
-//myBooks.textContent = myLibrary; 
-//console.log(myLibrary);
