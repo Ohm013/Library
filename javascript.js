@@ -1,19 +1,26 @@
 
 const addBookBtn = document.querySelector('.addBook');
 const myBooks = document.querySelector('.myBooks');
+const form = document.querySelector(".bookForm")
 
-const myLibrary = [];
 
 
-//myLibrary.forEach(input => {
-     //trying to create a new card everytime a book is submitted.
-  //  card.textContent = Object.values(input);
-    
-//});
+const fakeBook = {
+  title: "James",
+  author: "Me"
+}
 
+const faceBook = {
+  title : "Ohm",
+  author: "Me2"
+
+}
+
+const myLibrary = [fakeBook, faceBook];
 
 
 function Book (title,author,pages,read) {
+
   this.title = title;
   this.author = author ;
   this.pages = pages;
@@ -35,25 +42,37 @@ function addBookToLibrary(e) {
 
   myLibrary.push(input);
   console.log(myLibrary);
-   //const card = document.createElement("div");
-   //card.textContent = " Title: " + input.title + " Author: " + input.author + " Pages: " + input.pages + " Read? " + input.read; 
-   //myBooks.appendChild(card);
-displayBooks();
-}
+  form.reset(); 
+  
+
+
+ 
+      //card.textContent = myLibrary.slice(-1); //" Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
+    
+} //got the display to work. Doesn't show one book at a time, will show all of them now.
+  
+
+
 
 function displayBooks (){
-  for (let i = 0; i < myLibrary.length; i++) {
-
+  for (let i = 0  ; i < myLibrary.length  ; i++) {
     const card = document.createElement("div");
-    card.classList.add(".book-card");
-    card.textContent = " Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
+    card.classList.add("book-card");
+    card.textContent = " Title: " + myLibrary[i].title + " Author: " + myLibrary[myLibrary.length-1].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[myLibrary.length -1].read;  ;
     myBooks.appendChild(card);
-  } //got the display to work. Doesn't show one book at a time, will show all of them now.
-      // the "myLibrary[i].title, etc is how u can pinpoint each object value"
-}
+    console.log(card);
+
+}} //try making looop work with fake books in array then move to adding books thru user input.
 
 
 
+
+
+//myLibrary.forEach(input => {
+     //trying to create a new card everytime a book is submitted.
+  //  card.textContent = Object.values(input);
+    
+//});
 
 
 
@@ -66,8 +85,10 @@ function displayBooks (){
 
 
 //Problem 3: How to display stuff that is in the array, would need to loop over it for sure. I tried myBooks.textContent = myLibrary but it displays [object Object] not the actual object properties just showing it is an object in the array.
-// Solution 4: 
+// Solution 4: looped worked to show what is in the myLibrary array
 
+//Problem 4: Everytime a book is added, it displays the whole array again instead of just adding the new one to th display. 
+// If i have two books on display and add one and submit, it will show 5 books. two original , plus the 2 original and the new one.
 
 //If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
 //So to stop the form from submitting to somewhere you use ".preventDefault();"
