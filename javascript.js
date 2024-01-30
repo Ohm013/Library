@@ -31,7 +31,7 @@ function Book (title,author,pages,read) {
 addBookBtn.addEventListener('click', addBookToLibrary); //once you click add book, it should send results to myLibrary Array
 
 function addBookToLibrary(e) {
-  const title = document.querySelector('#book_name').value ;
+  const title = document.querySelector('#title').value ;
   const author = document.querySelector('#author').value;
   const pages = document.querySelector('#pages').value;
   const read = document.querySelector('#read'); //make sure to add value or youd have to everytime you mention the variable
@@ -58,7 +58,23 @@ function displayBooks (){
   for (let i = 0  ; i < myLibrary.length  ; i++) {
     const card = document.createElement("div");
     card.classList.add("book-card");
-    card.textContent = " Title: " + myLibrary[i].title + " Author: " + myLibrary[myLibrary.length-1].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[myLibrary.length -1].read;  ;
+      const bookName = document.createElement("h3");
+      bookName.textContent =  myLibrary[i].title;
+      
+      const writer = document.createElement("p");
+      writer.textContent ="Author: " +  myLibrary[i].author;
+
+      const numPages = document.createElement("p");
+      numPages.textContent = " Pages: " + myLibrary[i].pages
+
+      const haveRead = document.createElement("input");
+      haveRead.setAttribute("id", "haveRead");
+      const label = document.createElement("label");
+      label.setAttribute("for", "haveRead");
+      label.textContent = "Read?"
+      haveRead.setAttribute("type", "checkbox");
+
+    card.append(bookName, writer, numPages, haveRead);
     myBooks.appendChild(card);
     console.log(card);
 
