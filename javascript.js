@@ -36,13 +36,14 @@ function addBookToLibrary(e) {
   const pages = document.querySelector('#pages').value;
   const read = document.querySelector('#read'); //make sure to add value or youd have to everytime you mention the variable
 
+ 
   e.preventDefault();
 
   const input = new Book (title,author,pages,read); //need to make it where each submit creates a prototype of the book
 
   myLibrary.push(input);
   console.log(myLibrary);
-  displayBooks(); 
+  displayBooks(input); 
 
 
  
@@ -67,12 +68,16 @@ function displayBooks (){
       const numPages = document.createElement("p");
       numPages.textContent = " Pages: " + myLibrary[i].pages
 
-      const haveRead = document.createElement("input");
-      haveRead.setAttribute("id", "haveRead");
-      const label = document.createElement("label");
-      label.setAttribute("for", "haveRead");
-      label.textContent = "Read?"
-      haveRead.setAttribute("type", "checkbox");
+      const haveRead = document.createElement("button");
+      haveRead.classList.add("readBtn");
+      if (read.checked === true) {  //to target checkbox , add ".checked" and checked means true , unchecked means false
+      haveRead.textContent = "Read";
+      haveRead.style.backgroundColor = "green";
+      }else {
+        haveRead.textContent = "Unread";
+        haveRead.style.backgroundColor = "red";
+      }
+   
 
     card.append(bookName, writer, numPages, haveRead);
     myBooks.appendChild(card);
@@ -81,6 +86,12 @@ function displayBooks (){
 }} //try making looop work with fake books in array then move to adding books thru user input.
 displayBooks();
 
+
+   //haveRead.addEventListener("click", () => {
+      //read === checked 
+     //  haveRead.textContent = ? "Read" :  "Not Read" ;
+  
+      //})
 
 
 
@@ -115,6 +126,9 @@ displayBooks();
   //So now book1 will be in the same place as it was on the display and book2 next to it.
   //Instead of showing book1 book1 book2 like it would before bc the loop iterates over the previously added books
 
+
+  //Problem #5 : The read status is changing all of them to the status of the newy added book
+  
 
 //If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
 //So to stop the form from submitting to somewhere you use ".preventDefault();"
