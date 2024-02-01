@@ -7,7 +7,9 @@ const form = document.querySelector(".bookForm")
 
 const fakeBook = {
   title: "James",
-  author: "Me"
+  author: "Me",
+  
+
 }
 
 const faceBook = {
@@ -34,7 +36,7 @@ function addBookToLibrary(e) {
   const title = document.querySelector('#title').value ;
   const author = document.querySelector('#author').value;
   const pages = document.querySelector('#pages').value;
-  const read = document.querySelector('#read'); //make sure to add value or youd have to everytime you mention the variable
+  const read = document.getElementById('read').checked; //make sure to add value or youd have to everytime you mention the variable
 
  
   e.preventDefault();
@@ -55,11 +57,11 @@ function addBookToLibrary(e) {
 
 
 function displayBooks (){
-   myBooks.textContent = " "; // this right here is IMPORTANT! It clears the content of the display, so when loop starts, it only adds the new added book
-  for (let i = 0  ; i < myLibrary.length  ; i++) {
+  myBooks.textContent = " "; // this right here is IMPORTANT! It clears the content of the display, so when loop starts, it only adds the new added book
+  for (let i = 0  ; i < myLibrary.length  ; i++) { //loop over myLibrary
     const card = document.createElement("div");
     card.classList.add("book-card");
-      const bookName = document.createElement("h3");
+      const bookName = document.createElement("h3");  //card elements 
       bookName.textContent =  myLibrary[i].title;
       
       const writer = document.createElement("p");
@@ -68,24 +70,40 @@ function displayBooks (){
       const numPages = document.createElement("p");
       numPages.textContent = " Pages: " + myLibrary[i].pages
 
-      const haveRead = document.createElement("button");
-      haveRead.classList.add("readBtn");
-      if (read.checked === true) {  //to target checkbox , add ".checked" and checked means true , unchecked means false
-      haveRead.textContent = "Read";
-      haveRead.style.backgroundColor = "green";
-      }else {
-        haveRead.textContent = "Unread";
-        haveRead.style.backgroundColor = "red";
-      }
-   
+      const readBtn = document.createElement("button");
+      readBtn.classList.add("readBtn");
+        if (myLibrary[i].read === true) {  //to target checkbox , add ".checked" and checked means true , unchecked means false
+                                             
+        green(readBtn);  //read button for each card display
+      }else if (myLibrary[i].read === false) {
+          red(readBtn);
+        }
+    
+    readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
+      if (readBtn.textContent == "Read") {
+        red(readBtn);
 
-    card.append(bookName, writer, numPages, haveRead);
+      }else if (readBtn.textContent == "Unread"){
+        green(readBtn);
+    }})
+
+    card.append(bookName, writer, numPages, readBtn);
     myBooks.appendChild(card);
     console.log(card);
 
 }} //try making looop work with fake books in array then move to adding books thru user input.
 displayBooks();
 
+
+function green (button) {    //changes btn color to green or red
+  button.textContent = "Read";     
+  button.style.backgroundColor = "rgb(81, 232, 99)";  //green
+}
+
+function red (button) {
+  button.textContent = "Unread";
+  button.style.backgroundColor = "rgb(240, 31, 20)"; //red
+}
 
    //haveRead.addEventListener("click", () => {
       //read === checked 
@@ -128,7 +146,8 @@ displayBooks();
 
 
   //Problem #5 : The read status is changing all of them to the status of the newy added book
-  
+  //Solution #6 : Wasnt referring to the read status correctly. Instead of "if (read === true)"
+     // I needed to use the read status of the current loop item so "myLibrary[i].read"
 
 //If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
 //So to stop the form from submitting to somewhere you use ".preventDefault();"
