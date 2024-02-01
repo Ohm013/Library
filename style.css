@@ -1,0 +1,41 @@
+body {
+
+}
+
+h1 {
+   
+}
+.myBooks {
+    display: grid;
+    grid-template-columns:repeat(5, minmax(50px, 1fr));
+    grid-template-rows: repeat(autofit, minmax(50px, 1fr));
+    grid-gap: 20px ;
+
+}
+
+body {
+    background-color: rgb(245, 243, 247);
+}
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(155, 219, 233);
+    width: 15em;
+    height: 15em;
+    font-size: 18px ;
+    border-radius: 10px;
+  
+}
+
+.readBtn {
+    padding: 10px;
+    border-radius: 10px ;
+    font-size: 1em ;
+    font-weight: bold;
+}
+
+.bookDetails {
+    padding: 20px ;
+}
