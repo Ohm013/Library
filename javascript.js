@@ -57,7 +57,9 @@ function addBookToLibrary(e) {
 
 
 function displayBooks (){
+  
   myBooks.textContent = " "; // this right here is IMPORTANT! It clears the content of the display, so when loop starts, it only adds the new added book
+  
   for (let i = 0  ; i < myLibrary.length  ; i++) { //loop over myLibrary
     const card = document.createElement("div");
     card.classList.add("book-card");
@@ -68,7 +70,7 @@ function displayBooks (){
       writer.textContent ="Author: " +  myLibrary[i].author;
 
       const numPages = document.createElement("p");
-      numPages.textContent = " Pages: " + myLibrary[i].pages
+      numPages.textContent =  myLibrary[i].pages + " pages"
 
       const readBtn = document.createElement("button");
       readBtn.classList.add("readBtn");
@@ -77,22 +79,34 @@ function displayBooks (){
         green(readBtn);  //read button for each card display
       }else if (myLibrary[i].read === false) {
           red(readBtn);
-        }
+      }
+
+      const removeBtn = document.createElement("button");
+      removeBtn.classList.add("removeBtn");
+      removeBtn.textContent = "Remove";
+
     
-    readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
-      if (readBtn.textContent == "Read") {
-        red(readBtn);
-
-      }else if (readBtn.textContent == "Unread"){
-        green(readBtn);
+      readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
+        if (readBtn.textContent == "Read") {
+          red(readBtn);
+  
+        }else if (readBtn.textContent == "Unread"){
+          green(readBtn);
     }})
-
-    card.append(bookName, writer, numPages, readBtn);
-    myBooks.appendChild(card);
-    console.log(card);
-
-}} //try making looop work with fake books in array then move to adding books thru user input.
+  
+ 
+  
+  card.append(bookName, writer, numPages, readBtn, removeBtn);
+  myBooks.appendChild(card);
+  console.log(card);
+    
+    
+}}//try making looop work with fake books in array then move to adding books thru user input.
 displayBooks();
+
+
+
+
 
 
 function green (button) {    //changes btn color to green or red
@@ -105,7 +119,7 @@ function red (button) {
   button.style.backgroundColor = "rgb(240, 31, 20)"; //red
 }
 
-   //haveRead.addEventListener("click", () => {
+//haveRead.addEventListener("click", () => {
       //read === checked 
      //  haveRead.textContent = ? "Read" :  "Not Read" ;
   
@@ -161,4 +175,3 @@ function red (button) {
   //read
   //not recognizing the book title, authors etc.  Recognized after I put the querySelected elements inside the object
 //}
-
