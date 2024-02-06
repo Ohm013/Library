@@ -8,7 +8,7 @@ const form = document.querySelector(".bookForm")
 const fakeBook = {
   title: "James",
   author: "Me",
-  
+
 
 }
 
@@ -46,10 +46,6 @@ function addBookToLibrary(e) {
   myLibrary.push(input);
   console.log(myLibrary);
   displayBooks(input); 
-
-
- 
-//card.textContent = myLibrary.slice(-1); //" Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
     
 } //got the display to work. Doesn't show one book at a time, will show all of them now.
   
@@ -67,7 +63,7 @@ function displayBooks (){
       bookName.textContent =  myLibrary[i].title;
       
       const writer = document.createElement("p");
-      writer.textContent ="Author: " +  myLibrary[i].author;
+      writer.textContent = myLibrary[i].author;  //"Author: " + 
 
       const numPages = document.createElement("p");
       numPages.textContent =  myLibrary[i].pages + " pages"
@@ -85,7 +81,25 @@ function displayBooks (){
       removeBtn.classList.add("removeBtn");
       removeBtn.textContent = "Remove";
 
-    
+      removeBtn.addEventListener('click', (e)=>{
+          
+        var target = e.target.parentElement.firstChild.textContent  ; //targets the h3 title of each card so I can match it with myLibrary[i].title
+        var targetTwo = e.target.parentElement.children[1].textContent; //target author of card, second child
+        console.log(target);        
+        console.log(targetTwo);
+        function bookIndex () {
+          if (target === myLibrary[i].title && targetTwo === myLibrary[i].author){ //true, if the h3 heading of the remove button and the book title (myLibrary[i].title) for the array item are the same
+          console.log(myLibrary[i]); //FindIndex is coming out as -1 meaning not found.
+          return myLibrary[i]; //return the item in myLibrary and is then sent to findIndex above
+          }
+        }  
+
+        var foundBook = myLibrary.findIndex(bookIndex); //gets index of matched arrray book item. Hvae to put a function in the parenthesis of findIndex
+        console.log(foundBook);
+        //myLibrary.splice(foundBook, 1); //deletes book for the one that clicked delete
+       // displayBooks(); //this makes the book removed immediately rather than next time add book is clicked
+      })
+
       readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
         if (readBtn.textContent == "Read") {
           red(readBtn);
@@ -94,16 +108,13 @@ function displayBooks (){
           green(readBtn);
     }})
   
- 
-  
   card.append(bookName, writer, numPages, readBtn, removeBtn);
   myBooks.appendChild(card);
-  console.log(card);
+
     
     
 }}//try making looop work with fake books in array then move to adding books thru user input.
 displayBooks();
-
 
 
 
@@ -118,20 +129,6 @@ function red (button) {
   button.textContent = "Unread";
   button.style.backgroundColor = "rgb(240, 31, 20)"; //red
 }
-
-//haveRead.addEventListener("click", () => {
-      //read === checked 
-     //  haveRead.textContent = ? "Read" :  "Not Read" ;
-  
-      //})
-
-
-
-//myLibrary.forEach(input => {
-     //trying to create a new card everytime a book is submitted.
-  //  card.textContent = Object.values(input);
-    
-//});
 
 
 
@@ -163,10 +160,27 @@ function red (button) {
   //Solution #6 : Wasnt referring to the read status correctly. Instead of "if (read === true)"
      // I needed to use the read status of the current loop item so "myLibrary[i].read"
 
-//If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
-//So to stop the form from submitting to somewhere you use ".preventDefault();"
 
-//Problem 5: It is not properly reading correctly if the book has been read or not when box is checked
+//Problem #6: the delete button keeps removing the first item in the array no matter which book u click delete on
+    //It is not targeting the book that the delete button was clicked on
+    //Only target the remove button of the card
+//Solution #6 : Had to refer to "var target = e.target.parentElement.firstChild.textContent" which gets the h3 title of the book that remove was clicked on
+    // Now that h3 title of clicked book is now targeted , can now use it.
+    //In order to use findIndex(), a function has to be used inside the parenthesis. I tried putting the functino target in there but it would say "Ohm is not a function" bc Ohm was a sample book title
+    // So now I had to create bookIndex function so I can use for findIndex()
+    //bookIndex sees if target (the h3 heading title of the card that clicked remove) and myLibrary[i].title match
+    //If they match, return myLibrary[i] so findIndex knows to look for that specific book in the array.
+    // return target would NOT work bc target is the h3 "Ohm", findIndex cant look for html elements in an array,
+    // and myLibrary[i].title would allow findIndex to look for the title property for each array book item
+    //then finally bookIndex is sent to findIndex as findIndex(bookIndex);
+    //when that index is found, I need to delete that book so I use myLibrary.splice(foundBook, 1);
+  
+
+
+//If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
+//So to stop the form from submitting to somewhere you use ".preventDefault();" 
+// without .preventDefault, the form would submit once and refresh the page. Wouldnt be able to add multiple books
+
 
 //let book = {
   //title ,
@@ -175,3 +189,22 @@ function red (button) {
   //read
   //not recognizing the book title, authors etc.  Recognized after I put the querySelected elements inside the object
 //}
+
+//card.textContent = myLibrary.slice(-1); //" Title: " + myLibrary[i].title + " Author: " + myLibrary[i].author + " Pages: " + myLibrary[i].pages + " Read? " + myLibrary[i].read; 
+
+//haveRead.addEventListener("click", () => {
+      //read === checked 
+     //  haveRead.textContent = ? "Read" :  "Not Read" ;
+  
+      //})
+
+
+
+//myLibrary.forEach(input => {
+     //trying to create a new card everytime a book is submitted.
+  //  card.textContent = Object.values(input);
+    
+//});
+
+ //return target.parentNode.remove(); // this removes the card visually but not from array 
+
