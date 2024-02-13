@@ -18,11 +18,10 @@ const faceBook = {
 
 }
 
-const myLibrary = [fakeBook, faceBook];
+let myLibrary = [fakeBook, faceBook]; //changed "const" to "let" so filter MyLibrary could work because myLibrary is getting edited
 
 
 function Book (title,author,pages,read) {
-
   this.title = title;
   this.author = author ;
   this.pages = pages;
@@ -50,20 +49,19 @@ function addBookToLibrary(e) {
 } //got the display to work. Doesn't show one book at a time, will show all of them now.
   
 
-
-
 function displayBooks (){
   
-  myBooks.textContent = " "; // this right here is IMPORTANT! It clears the content of the display, so when loop starts, it only adds the new added book
+  myBooks.textContent = " "; // this right here is IMPORTANT! It clears the content of the display, so when it loops MyLibrary, it only adds the new added book instead of having the already added books show up twice
   
   for (let i = 0  ; i < myLibrary.length  ; i++) { //loop over myLibrary
-    const card = document.createElement("div");
-    card.classList.add("book-card");
+    const cards = document.createElement("div");
+    cards.classList.add("cards");
+
       const bookName = document.createElement("h3");  //card elements 
       bookName.textContent =  myLibrary[i].title;
       
       const writer = document.createElement("p");
-      writer.textContent = myLibrary[i].author;  //"Author: " + 
+      writer.textContent = "Author: " + myLibrary[i].author;  
 
       const numPages = document.createElement("p");
       numPages.textContent =  myLibrary[i].pages + " pages"
@@ -80,25 +78,18 @@ function displayBooks (){
       const removeBtn = document.createElement("button");
       removeBtn.classList.add("removeBtn");
       removeBtn.textContent = "Remove";
+    
+   
 
       removeBtn.addEventListener('click', (e)=>{
-          
-        var target = e.target.parentElement.firstChild.textContent  ; //targets the h3 title of each card so I can match it with myLibrary[i].title
-        var targetTwo = e.target.parentElement.children[1].textContent; //target author of card, second child
-        console.log(target);        
-        console.log(targetTwo);
-        function bookIndex () {
-          if (target === myLibrary[i].title && targetTwo === myLibrary[i].author){ //true, if the h3 heading of the remove button and the book title (myLibrary[i].title) for the array item are the same
-          console.log(myLibrary[i]); //FindIndex is coming out as -1 meaning not found.
-          return myLibrary[i]; //return the item in myLibrary and is then sent to findIndex above
-          }
-        }  
+        
+        var target = e.target.parentNode.firstChild.textContent; //targets card heading/title
 
-        var foundBook = myLibrary.findIndex(bookIndex); //gets index of matched arrray book item. Hvae to put a function in the parenthesis of findIndex
-        console.log(foundBook);
-        //myLibrary.splice(foundBook, 1); //deletes book for the one that clicked delete
-       // displayBooks(); //this makes the book removed immediately rather than next time add book is clicked
+         myLibrary = myLibrary.filter(book => book.title != target) // !!!!! filter is the keyword I needed!! Removes the book with the same title as target which is the heading of the clicked on card                
+         displayBooks(); //refreshes the display
+       
       })
+
 
       readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
         if (readBtn.textContent == "Read") {
@@ -107,17 +98,12 @@ function displayBooks (){
         }else if (readBtn.textContent == "Unread"){
           green(readBtn);
     }})
-  
-  card.append(bookName, writer, numPages, readBtn, removeBtn);
-  myBooks.appendChild(card);
 
-    
-    
+  cards.append(bookName, writer, numPages, readBtn, removeBtn);
+  myBooks.appendChild(cards);
+
 }}//try making looop work with fake books in array then move to adding books thru user input.
 displayBooks();
-
-
-
 
 
 function green (button) {    //changes btn color to green or red
@@ -174,8 +160,12 @@ function red (button) {
     // and myLibrary[i].title would allow findIndex to look for the title property for each array book item
     //then finally bookIndex is sent to findIndex as findIndex(bookIndex);
     //when that index is found, I need to delete that book so I use myLibrary.splice(foundBook, 1);
-  
+  // this above solution DID NOT WORK!!
 
+  //Solution #6:   myLibrary = myLibrary.filter(book => book.title != target) THIS WORKED
+  // changed myLibrary from const to let so it can be modified
+  //now it will filter all the books that do NOT have the same heading as the target and will put all of those books in the array
+  //more like keep the non-matching books in the array. So the book that does match gets removed. 
 
 //If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
 //So to stop the form from submitting to somewhere you use ".preventDefault();" 
@@ -208,3 +198,22 @@ function red (button) {
 
  //return target.parentNode.remove(); // this removes the card visually but not from array 
 
+//var target = e.target.parentElement.firstChild.textContent  ; //targets the h3 title of each card so I can match it with myLibrary[i].title
+        //var targetTwo = e.target.parentElement.children[1].textContent; //target author of card, second child
+        //console.log(target);        
+        //console.log(targetTwo);
+
+        ////true, if the h3 heading of the remove button and the book title (myLibrary[i].title) for the array item are the same
+          //return myLibrary.target.remove();
+         
+            
+          //FindIndex is coming out as -1 meaning not found or 0.
+          //return the item in myLibrary and is then sent to findIndex above
+        
+      //  }  
+  
+      
+       // var foundBook =  myLibrary.findIndex(bookIndex); //gets index of matched arrray book item. Hvae to put a function in the parenthesis of findIndex
+        //console.log(foundBook);
+        //myLibrary.splice(foundBook, 1); //deletes book for the one that clicked delete
+        //displayBooks(); //this makes the book removed immediately rather than next time add book  is clicked
