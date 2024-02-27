@@ -1,20 +1,21 @@
-
 const addBookBtn = document.querySelector('.addBook');
 const myBooks = document.querySelector('.myBooks');
-const form = document.querySelector(".bookForm")
+const form = document.querySelector(".bookForm");
 
 
 
 const fakeBook = {
   title: "James",
   author: "Me",
-
-
+  read: false,
+  pages: 435
 }
 
 const faceBook = {
   title : "Ohm",
-  author: "Me2"
+  author: "Me2",
+  read: true,
+  pages: 238
 
 }
 
@@ -57,13 +58,13 @@ function displayBooks (){
     const cards = document.createElement("div");
     cards.classList.add("cards");
 
-      const bookName = document.createElement("h3");  //card elements 
+      const bookName = document.createElement("h2");  //card elements 
       bookName.textContent =  myLibrary[i].title;
       
-      const writer = document.createElement("p");
+      const writer = document.createElement("h4");
       writer.textContent = "Author: " + myLibrary[i].author;  
 
-      const numPages = document.createElement("p");
+      const numPages = document.createElement("h4");
       numPages.textContent =  myLibrary[i].pages + " pages"
 
       const readBtn = document.createElement("button");
@@ -75,6 +76,7 @@ function displayBooks (){
           red(readBtn);
       }
 
+
       const removeBtn = document.createElement("button");
       removeBtn.classList.add("removeBtn");
       removeBtn.textContent = "Remove";
@@ -83,37 +85,45 @@ function displayBooks (){
 
       removeBtn.addEventListener('click', (e)=>{
         
-        var target = e.target.parentNode.firstChild.textContent; //targets card heading/title
+        var target = e.target.parentNode.firstChild.textContent; //targets card heading/titleS
 
          myLibrary = myLibrary.filter(book => book.title != target) // !!!!! filter is the keyword I needed!! Removes the book with the same title as target which is the heading of the clicked on card                
          displayBooks(); //refreshes the display
        
       })
 
+    readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
+      if (readBtn.textContent == "Read") {
+        red(readBtn);
+        myLibrary[i].read = false; //added this so it targets the readBtn and gives it a true or false value, not just textContent that shows read or unread
 
-      readBtn.addEventListener('click', () => {  //toggles read btn status when clicked
-        if (readBtn.textContent == "Read") {
-          red(readBtn);
-  
-        }else if (readBtn.textContent == "Unread"){
-          green(readBtn);
-    }})
+      }else if (readBtn.textContent == "Unread"){
+        green(readBtn);
+        myLibrary[i].read = true;  //So now the true or false won't change back to original status even if new book is added. Will stick to the status of when it is clicked on.
 
-  cards.append(bookName, writer, numPages, readBtn, removeBtn);
+      }});
+
+  cards.append(bookName, writer, numPages, readBtn, removeBtn); //"append" to upload multiple children
   myBooks.appendChild(cards);
+
+
 
 }}//try making looop work with fake books in array then move to adding books thru user input.
 displayBooks();
 
 
+
+
 function green (button) {    //changes btn color to green or red
   button.textContent = "Read";     
-  button.style.backgroundColor = "rgb(81, 232, 99)";  //green
+  button.style.backgroundColor = "rgb(94, 234, 201)";    //green
+  
 }
 
 function red (button) {
   button.textContent = "Unread";
-  button.style.backgroundColor = "rgb(240, 31, 20)"; //red
+  button.style.backgroundColor = "rgb(234, 94, 94)"; //red
+  
 }
 
 
@@ -170,6 +180,13 @@ function red (button) {
 //If there is only one button in a form, the browser will default use it as a way to send the user inputs somewhere
 //So to stop the form from submitting to somewhere you use ".preventDefault();" 
 // without .preventDefault, the form would submit once and refresh the page. Wouldnt be able to add multiple books
+
+
+//Problem #7 : Read status chages to original status when new book is added
+//Solution #7 : added "  myLibrary[i].read = true;" and "myLibrary[i].read = false" to the readBtn event listener so now it actually gives the true or false value to the button 
+//Not only just changing the textContent but will change the value to true or false so the status wont go back to it's orignal status when new book is added .
+//Because before it would only change the textContent but not the actual value, now the true or false is added so the status will only change when readBtn clicked on and will stay like that
+//It wont go back to the orignal status when new book is added, will stay on the status if changed.
 
 
 //let book = {
